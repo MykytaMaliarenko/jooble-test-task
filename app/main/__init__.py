@@ -1,14 +1,10 @@
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+from flask_restx import Api
+from flask import Blueprint
 
-from .config import configs
+api_blueprint = Blueprint('api', __name__, url_prefix="/api/v1")
 
-db = SQLAlchemy()
-
-
-def create_app(config_name: str) -> Flask:
-    app = Flask(__name__)
-    app.config.from_object(configs[config_name])
-    db.init_app(app)
-
-    return app
+api = Api(api_blueprint,
+          title='UrlShortener',
+          version='1.0',
+          description='test task for Jooble'
+          )
