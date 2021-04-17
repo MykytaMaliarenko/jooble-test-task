@@ -4,15 +4,12 @@ import unittest
 from dotenv import load_dotenv
 from flask_script import Manager
 
-from app import api_blueprint
-from app.main import create_app
+from app.factory import create_app
 
 # load env from .env in project root folder
 load_dotenv()
 
-app = create_app(os.getenv('ENV_NAME', "dev"))
-app.register_blueprint(api_blueprint)
-
+app = create_app()
 app.app_context().push()
 
 # for managing terminal commands
