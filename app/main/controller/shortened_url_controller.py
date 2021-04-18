@@ -15,19 +15,22 @@ shortened_url_parser.add_argument(
 )
 shortened_url_parser.add_argument(
     'ttl', type=int, dest='raw_ttl',
-    required=True, help='time to live in seconds',
+    help='time to live in seconds',
 )
 
 
 class UrlGeneratorController(Resource):
     def post(self):
         args = shortened_url_parser.parse_args()
-        if args.raw_ttl < 0:
-            abort(400, message="ttl must be positive int")
+        if args.raw_ttl:
+            if args.raw_ttl < 0:
+                abort(400, message="ttl must be positive int")
 
-        ttl = timedelta(seconds=args.raw_ttl)
-        if ttl.days < 1 or ttl.days >= 365:
-            abort(400, message="ttl must be from 1 day to 1 year")
+            ttl = timedelta(seconds=args.raw_ttl)
+            if ttl.days < 1 or ttl.days >= 365:
+                abort(400, message="ttl must be from 1 day to 1 year")
+        else:
+            ttl = timedelta(days=90)
 
         _id = RedisService.pick_id()
         shorten_url = ShortenedUrlService.create(_id, args.url, ttl)
