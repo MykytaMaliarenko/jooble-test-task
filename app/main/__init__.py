@@ -1,10 +1,10 @@
-from flask_restx import Api
+from flask_restful import Api
 from flask import Blueprint
+from app.main.controller.shortened_url_controller import \
+    UrlGeneratorController, RedirectController
 
-api_blueprint = Blueprint('api', __name__, url_prefix="/api/v1")
+api_blueprint = Blueprint('api', __name__)
 
-api = Api(api_blueprint,
-          title='UrlShortener',
-          version='1.0',
-          description='test task for Jooble'
-          )
+api = Api(api_blueprint)
+api.add_resource(UrlGeneratorController, '/generate')
+api.add_resource(RedirectController, '/<string:url_id>', endpoint="redirect")
