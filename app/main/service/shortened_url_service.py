@@ -6,7 +6,7 @@ class ShortenedUrlService:
 
     @staticmethod
     def create(_id: str, url: str, ttl: timedelta) -> ShortenedUrl:
-        return ShortenedUrl(id=id, full_url=url, ttl=ttl)
+        return ShortenedUrl(id=_id, full_url=url, ttl=ttl)
 
     @staticmethod
     def has_id(_id: str) -> bool:
