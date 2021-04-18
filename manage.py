@@ -4,7 +4,7 @@ import unittest
 from dotenv import load_dotenv
 from flask_script import Manager
 
-from app.factory import create_app
+from app import create_app
 
 # load env from .env in project root folder
 load_dotenv()

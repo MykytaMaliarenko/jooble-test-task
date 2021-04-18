@@ -1,28 +1,29 @@
 import os
 
 from celery.utils.log import get_task_logger
-from flask_sqlalchemy import SQLAlchemy
 
-from app.celery import celery_instance
+from app import celery_app
 from app.main.service.shortened_url_service import ShortenedUrlService
 from app import create_redis_instance
 
 logger = get_task_logger(__name__)
 
+celery = celery_app.celery
 
-@celery_instance.task()
+
+@celery.task()
 def simple_task():
     print("simple task")
 
 
-@celery_instance.task()
+@celery.task()
 def delete_old_records():
     logger.info(f'start deleting old records')
     ShortenedUrlService.delete_old_records()
     logger.info(f'finish deleting old records')
 
 
-@celery_instance.task()
+@celery.task()
 def generate_ids():
     logger.info(f'start checking pool')
 

@@ -1,6 +1,6 @@
 from flask_restful import Api
 from flask import Blueprint
-from app.main.controller.shortened_url_controller import \
+from .controller.shortened_url_controller import \
     UrlGeneratorController, RedirectController
 
 api_blueprint = Blueprint('api', __name__)

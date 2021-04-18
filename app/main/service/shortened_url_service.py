@@ -21,14 +21,15 @@ class ShortenedUrlService:
 
     @staticmethod
     def generate_unique_id(length: int) -> str:
-        _id = ""
-        while not _id or ShortenedUrlService.has_id(_id):
+        while True:
             _id = ShortenedUrlService.generate_id(length)
+            if not ShortenedUrlService.has_id(_id):
+                break
         return _id
 
     @staticmethod
     def has_id(_id: str) -> bool:
-        return ShortenedUrl.query.filter_by(id=_id).exists()
+        return ShortenedUrl.query.filter_by(id=_id).first() is not None
 
     @staticmethod
     def get_by_id(_id: str) -> ShortenedUrl:
