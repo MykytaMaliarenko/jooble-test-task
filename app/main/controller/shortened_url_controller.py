@@ -4,6 +4,7 @@ import flask
 
 from app import db
 from app.main.service.shortened_url_service import ShortenedUrlService
+from app.main.service.redis import RedisService
 from flask import redirect
 from flask_restful import Resource, reqparse, abort
 
@@ -28,8 +29,7 @@ class UrlGeneratorController(Resource):
         if ttl.days < 1 or ttl.days >= 365:
             abort(400, message="ttl must be from 1 day to 1 year")
 
-        # TODO: replace with actual id
-        _id = "test2"
+        _id = RedisService.pick_id()
         shorten_url = ShortenedUrlService.create(_id, args.url, ttl)
         db.session.add(shorten_url)
         db.session.commit()
