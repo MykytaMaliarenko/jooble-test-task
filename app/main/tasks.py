@@ -1,3 +1,4 @@
+import json
 import os
 
 from celery.utils.log import get_task_logger
@@ -33,7 +34,7 @@ def generate_ids():
     logger.info(f'opened redis connection')
 
     if redis.exists(pool_key):
-        pool = redis.get(pool_key)
+        pool = json.loads(redis.get(pool_key))
     else:
         logger.info("creating pool")
         pool = []
@@ -45,7 +46,7 @@ def generate_ids():
         logger.info(f'new_ids: {new_ids}')
 
         pool += [ShortenedUrlService.generate_unique_id(5) for _ in range(pool_size - len(pool))]
-        redis.set(pool_key, pool)
+        redis.set(pool_key, json.dumps(pool))
     else:
         logger.info(f'pool is full')
 
