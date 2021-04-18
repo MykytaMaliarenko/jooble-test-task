@@ -9,5 +9,5 @@ class ShortenedUrl(db.Model):
 
     id = db.Column(db.String(length=5), primary_key=True)
     full_url = db.Column(db.String)
-    creation_date = Column(db.DateTime)
-    ttl = Column(db.Interval)
+    creation_date = Column(db.DateTime, server_default="DEFAULT")
+    ttl = Column(db.Interval, server_default="DEFAULT")
