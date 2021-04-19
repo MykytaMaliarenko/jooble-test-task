@@ -28,8 +28,8 @@ def create_celery_app(_app=None):
                     include=CELERY_TASK_LIST)
     celery.conf.update(_app.config)
     always_eager = _app.config['TESTING'] or False
-    celery.conf.update({'CELERY_ALWAYS_EAGER': always_eager,
-                        'CELERY_RESULT_BACKEND': f"db+{_app.config['SQLALCHEMY_DATABASE_URI']}"})
+    celery.conf.update({'task_always_eager': always_eager,
+                        'result_backend': f"db+{_app.config['SQLALCHEMY_DATABASE_URI']}"})
 
     TaskBase = celery.Task
 

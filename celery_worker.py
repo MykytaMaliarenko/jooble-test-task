@@ -10,7 +10,7 @@ load_dotenv()
 from app import celery_app, create_app
 
 app = create_app()
-app.config['CELERYBEAT_SCHEDULE'] = {
+app.config['beat_schedule'] = {
     # Executes every minute
     'db-clearing': {
         'task': 'app.main.tasks.delete_old_records',
